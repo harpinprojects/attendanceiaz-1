@@ -10,33 +10,91 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AbsensiRouteImport } from './routes/absensi'
+import { Route as KelasRouteImport } from './routes/kelas'
+import { Route as LaporanRouteImport } from './routes/laporan'
+import { Route as MahasiswaRouteImport } from './routes/mahasiswa'
+import { Route as MataKuliahRouteImport } from './routes/mata-kuliah'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AbsensiRoute = AbsensiRouteImport.update({
+  id: '/absensi',
+  path: '/absensi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KelasRoute = KelasRouteImport.update({
+  id: '/kelas',
+  path: '/kelas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LaporanRoute = LaporanRouteImport.update({
+  id: '/laporan',
+  path: '/laporan',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MahasiswaRoute = MahasiswaRouteImport.update({
+  id: '/mahasiswa',
+  path: '/mahasiswa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MataKuliahRoute = MataKuliahRouteImport.update({
+  id: '/mata-kuliah',
+  path: '/mata-kuliah',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/absensi': typeof AbsensiRoute
+  '/kelas': typeof KelasRoute
+  '/laporan': typeof LaporanRoute
+  '/mahasiswa': typeof MahasiswaRoute
+  '/mata-kuliah': typeof MataKuliahRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/absensi': typeof AbsensiRoute
+  '/kelas': typeof KelasRoute
+  '/laporan': typeof LaporanRoute
+  '/mahasiswa': typeof MahasiswaRoute
+  '/mata-kuliah': typeof MataKuliahRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/absensi': typeof AbsensiRoute
+  '/kelas': typeof KelasRoute
+  '/laporan': typeof LaporanRoute
+  '/mahasiswa': typeof MahasiswaRoute
+  '/mata-kuliah': typeof MataKuliahRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/absensi' | '/kelas' | '/laporan' | '/mahasiswa' | '/mata-kuliah'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/absensi' | '/kelas' | '/laporan' | '/mahasiswa' | '/mata-kuliah'
+  id:
+    | '__root__'
+    | '/'
+    | '/absensi'
+    | '/kelas'
+    | '/laporan'
+    | '/mahasiswa'
+    | '/mata-kuliah'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AbsensiRoute: typeof AbsensiRoute
+  KelasRoute: typeof KelasRoute
+  LaporanRoute: typeof LaporanRoute
+  MahasiswaRoute: typeof MahasiswaRoute
+  MataKuliahRoute: typeof MataKuliahRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +106,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/absensi': {
+      id: '/absensi'
+      path: '/absensi'
+      fullPath: '/absensi'
+      preLoaderRoute: typeof AbsensiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kelas': {
+      id: '/kelas'
+      path: '/kelas'
+      fullPath: '/kelas'
+      preLoaderRoute: typeof KelasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/laporan': {
+      id: '/laporan'
+      path: '/laporan'
+      fullPath: '/laporan'
+      preLoaderRoute: typeof LaporanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mahasiswa': {
+      id: '/mahasiswa'
+      path: '/mahasiswa'
+      fullPath: '/mahasiswa'
+      preLoaderRoute: typeof MahasiswaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mata-kuliah': {
+      id: '/mata-kuliah'
+      path: '/mata-kuliah'
+      fullPath: '/mata-kuliah'
+      preLoaderRoute: typeof MataKuliahRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AbsensiRoute: AbsensiRoute,
+  KelasRoute: KelasRoute,
+  LaporanRoute: LaporanRoute,
+  MahasiswaRoute: MahasiswaRoute,
+  MataKuliahRoute: MataKuliahRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

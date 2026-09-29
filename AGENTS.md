@@ -1,10 +1,5 @@
-<!-- LOVABLE:BEGIN -->
-> [!IMPORTANT]
-> This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
-> published git history — force pushing, or rebasing/amending/squashing commits
-> that are already pushed — as it rewrites history on Lovable's side and the
-> user will likely lose their project history.
->
-> Commits you push to the connected branch sync back to Lovable and show up in
-> the editor, so keep the branch in a working state.
-<!-- LOVABLE:END -->
+# AGENTS
+
+- Halaman aplikasi adalah route file di `src/routes/` dengan layout bersama `src/components/AppLayout.tsx`, agar navigasi konsisten di semua halaman.
+- Data absensi/mahasiswa/mata kuliah/kelas diakses langsung dari browser via `@/integrations/supabase/client` + TanStack Query; tidak ada auth sehingga tabel memakai policy akses publik.
+- Satu baris absensi unik per (mahasiswa, kelas, pertemuan) dan disimpan dengan upsert, supaya pengisian ulang pertemuan yang sama tidak menduplikasi data.

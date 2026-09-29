@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AbsensiRouteImport } from './routes/absensi'
+import { Route as KartuKuliahRouteImport } from './routes/kartu-kuliah'
 import { Route as KelasRouteImport } from './routes/kelas'
 import { Route as LaporanRouteImport } from './routes/laporan'
 import { Route as MahasiswaRouteImport } from './routes/mahasiswa'
@@ -24,6 +25,11 @@ const IndexRoute = IndexRouteImport.update({
 const AbsensiRoute = AbsensiRouteImport.update({
   id: '/absensi',
   path: '/absensi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KartuKuliahRoute = KartuKuliahRouteImport.update({
+  id: '/kartu-kuliah',
+  path: '/kartu-kuliah',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KelasRoute = KelasRouteImport.update({
@@ -50,6 +56,7 @@ const MataKuliahRoute = MataKuliahRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/absensi': typeof AbsensiRoute
+  '/kartu-kuliah': typeof KartuKuliahRoute
   '/kelas': typeof KelasRoute
   '/laporan': typeof LaporanRoute
   '/mahasiswa': typeof MahasiswaRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/absensi': typeof AbsensiRoute
+  '/kartu-kuliah': typeof KartuKuliahRoute
   '/kelas': typeof KelasRoute
   '/laporan': typeof LaporanRoute
   '/mahasiswa': typeof MahasiswaRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/absensi': typeof AbsensiRoute
+  '/kartu-kuliah': typeof KartuKuliahRoute
   '/kelas': typeof KelasRoute
   '/laporan': typeof LaporanRoute
   '/mahasiswa': typeof MahasiswaRoute
@@ -75,13 +84,27 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/absensi' | '/kelas' | '/laporan' | '/mahasiswa' | '/mata-kuliah'
+    | '/'
+    | '/absensi'
+    | '/kartu-kuliah'
+    | '/kelas'
+    | '/laporan'
+    | '/mahasiswa'
+    | '/mata-kuliah'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/absensi' | '/kelas' | '/laporan' | '/mahasiswa' | '/mata-kuliah'
+  to:
+    | '/'
+    | '/absensi'
+    | '/kartu-kuliah'
+    | '/kelas'
+    | '/laporan'
+    | '/mahasiswa'
+    | '/mata-kuliah'
   id:
     | '__root__'
     | '/'
     | '/absensi'
+    | '/kartu-kuliah'
     | '/kelas'
     | '/laporan'
     | '/mahasiswa'
@@ -91,6 +114,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AbsensiRoute: typeof AbsensiRoute
+  KartuKuliahRoute: typeof KartuKuliahRoute
   KelasRoute: typeof KelasRoute
   LaporanRoute: typeof LaporanRoute
   MahasiswaRoute: typeof MahasiswaRoute
@@ -111,6 +135,13 @@ declare module '@tanstack/react-router' {
       path: '/absensi'
       fullPath: '/absensi'
       preLoaderRoute: typeof AbsensiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kartu-kuliah': {
+      id: '/kartu-kuliah'
+      path: '/kartu-kuliah'
+      fullPath: '/kartu-kuliah'
+      preLoaderRoute: typeof KartuKuliahRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kelas': {
@@ -147,6 +178,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AbsensiRoute: AbsensiRoute,
+  KartuKuliahRoute: KartuKuliahRoute,
   KelasRoute: KelasRoute,
   LaporanRoute: LaporanRoute,
   MahasiswaRoute: MahasiswaRoute,

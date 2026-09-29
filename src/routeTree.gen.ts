@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MahasiswaRouteImport } from './routes/mahasiswa'
+import { Route as MataKuliahRouteImport } from './routes/mata-kuliah'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MahasiswaRoute = MahasiswaRouteImport.update({
+  id: '/mahasiswa',
+  path: '/mahasiswa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MataKuliahRoute = MataKuliahRouteImport.update({
+  id: '/mata-kuliah',
+  path: '/mata-kuliah',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/mahasiswa': typeof MahasiswaRoute
+  '/mata-kuliah': typeof MataKuliahRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/mahasiswa': typeof MahasiswaRoute
+  '/mata-kuliah': typeof MataKuliahRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/mahasiswa': typeof MahasiswaRoute
+  '/mata-kuliah': typeof MataKuliahRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/mahasiswa' | '/mata-kuliah'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/mahasiswa' | '/mata-kuliah'
+  id: '__root__' | '/' | '/mahasiswa' | '/mata-kuliah'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MahasiswaRoute: typeof MahasiswaRoute
+  MataKuliahRoute: typeof MataKuliahRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mahasiswa': {
+      id: '/mahasiswa'
+      path: '/mahasiswa'
+      fullPath: '/mahasiswa'
+      preLoaderRoute: typeof MahasiswaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mata-kuliah': {
+      id: '/mata-kuliah'
+      path: '/mata-kuliah'
+      fullPath: '/mata-kuliah'
+      preLoaderRoute: typeof MataKuliahRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MahasiswaRoute: MahasiswaRoute,
+  MataKuliahRoute: MataKuliahRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

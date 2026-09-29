@@ -8,6 +8,7 @@ import {
   ClipboardCheck,
   BarChart3,
   GraduationCap,
+  IdCard,
 } from "lucide-react";
 
 const nav = [
@@ -17,6 +18,7 @@ const nav = [
   { to: "/kelas", label: "Data Kelas", icon: School },
   { to: "/absensi", label: "Absensi", icon: ClipboardCheck },
   { to: "/laporan", label: "Laporan", icon: BarChart3 },
+  { to: "/kartu-kuliah", label: "Kartu Kuliah", icon: IdCard },
 ] as const;
 
 export function AppLayout({

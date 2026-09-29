@@ -74,7 +74,7 @@ function AbsensiPage() {
 
   const kelas = kelasList.find((k) => k.id === kelasId);
 
-  const { data: mahasiswa = [], isLoading } = useQuery({
+  const { data: mahasiswaData, isLoading } = useQuery({
     queryKey: ["mahasiswa-kelas", kelas?.nama],
     enabled: !!kelas,
     queryFn: async () => {
@@ -88,7 +88,7 @@ function AbsensiPage() {
     },
   });
 
-  const { data: existing = [] } = useQuery({
+  const { data: existingData } = useQuery({
     queryKey: ["absensi-existing", kelasId, pertemuan],
     enabled: !!kelasId,
     queryFn: async () => {
@@ -102,13 +102,16 @@ function AbsensiPage() {
     },
   });
 
+  const mahasiswa = mahasiswaData ?? [];
+
   useEffect(() => {
     const next: Record<string, Status> = {};
-    for (const m of mahasiswa) next[m.id] = "Hadir";
-    for (const a of existing) next[a.mahasiswa_id] = a.status as Status;
+    for (const m of mahasiswaData ?? []) next[m.id] = "Hadir";
+    for (const a of existingData ?? []) next[a.mahasiswa_id] = a.status as Status;
     setStatuses(next);
-    if (existing.length > 0 && existing[0]?.tanggal) setTanggal(existing[0].tanggal);
-  }, [mahasiswa, existing]);
+    const first = existingData?.[0];
+    if (first?.tanggal) setTanggal(first.tanggal);
+  }, [mahasiswaData, existingData]);
 
   const simpan = useMutation({
     mutationFn: async () => {

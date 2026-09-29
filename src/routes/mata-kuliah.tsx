@@ -94,9 +94,14 @@ function MataKuliahPage() {
     }
     const sks = Number(form.sks);
     const smt = Number(form.semester);
-    if (!Number.isInteger(sks) || sks < 1 || sks > 6) return toast.error("SKS harus 1 - 6");
-    if (!Number.isInteger(smt) || smt < 1 || smt > 14)
-      return toast.error("Semester harus 1 - 14");
+    if (!Number.isInteger(sks) || sks < 1 || sks > 6) {
+      toast.error("SKS harus 1 - 6");
+      return;
+    }
+    if (!Number.isInteger(smt) || smt < 1 || smt > 14) {
+      toast.error("Semester harus 1 - 14");
+      return;
+    }
     save.mutate(form);
   };
 

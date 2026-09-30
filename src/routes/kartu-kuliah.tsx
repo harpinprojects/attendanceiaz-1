@@ -101,7 +101,7 @@ function KartuKuliahPage() {
     });
 
   const prodi = rows[0]?.prodi ?? "-";
-  const info = data
+  const info: [string, string][] = data
     ? [
         ["MATAKULIAH", `${data.mk.kode} - ${data.mk.nama}`],
         ["PRODI", prodi],
@@ -153,7 +153,7 @@ function KartuKuliahPage() {
       String(i + 1),
       r.nama,
       r.npm,
-      ...r.cells.map((c) => (c === "Hadir" ? "" : c ? KODE[c] : "")),
+      ...r.cells.map((c) => (c && c !== "Hadir" ? (KODE[c] ?? "") : "")),
       `${r.persen}%`,
       "",
     ]);
@@ -175,6 +175,7 @@ function KartuKuliahPage() {
         2: { cellWidth: 22 },
         19: { cellWidth: 15 },
         20: { cellWidth: 17 },
+        ...Object.fromEntries(PERTEMUAN_LIST.map((p) => [p + 2, { cellWidth: (W - 20 - 114) / 16 }])),
       },
       didDrawCell: (d) => {
         if (d.section === "body" && hadirMark.has(`${d.row.index}-${d.column.index}`)) {

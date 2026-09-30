@@ -175,6 +175,7 @@ function KartuKuliahPage() {
         2: { cellWidth: 22 },
         19: { cellWidth: 15 },
         20: { cellWidth: 17 },
+        ...Object.fromEntries(PERTEMUAN_LIST.map((p) => [p + 2, { cellWidth: (W - 20 - 114) / 16 }])),
       },
       didDrawCell: (d) => {
         if (d.section === "body" && hadirMark.has(`${d.row.index}-${d.column.index}`)) {

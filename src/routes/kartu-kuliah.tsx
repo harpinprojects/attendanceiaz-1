@@ -205,13 +205,13 @@ function KartuKuliahPage() {
         info.forEach(([key, value], index) => {
           const column = index % 3;
           const row = Math.floor(index / 3);
-          const x = 10 + column * 98;
+          const x = 10 + column * 90;
           const y = 25 + row * 7;
           const labelWidth = column === 2 ? 39 : 23;
           doc.setFont("helvetica", "bold");
           doc.text(key, x, y);
           doc.setFont("helvetica", "normal");
-          doc.text(`: ${value.toLocaleUpperCase("id-ID")}`, x + labelWidth, y, { maxWidth: 59 });
+          doc.text(`: ${value.toLocaleUpperCase("id-ID")}`, x + labelWidth, y, { maxWidth: column === 2 ? 53 : 62 });
         });
         startY = 42;
       }
@@ -273,12 +273,12 @@ function KartuKuliahPage() {
         alternateRowStyles: { fillColor: [245, 245, 245] },
         columnStyles: {
           0: { cellWidth: 7 },
-          1: { cellWidth: 42, halign: "left" },
+          1: { cellWidth: 48, halign: "left" },
           2: { cellWidth: 25 },
-          19: { cellWidth: 17 },
-          20: { cellWidth: 17 },
-          21: { cellWidth: 17 },
-          ...Object.fromEntries(PERTEMUAN_LIST.map((pertemuan) => [pertemuan + 2, { cellWidth: 6.65 }])),
+          19: { cellWidth: 18 },
+          20: { cellWidth: 20 },
+          21: { cellWidth: 20 },
+          ...Object.fromEntries(PERTEMUAN_LIST.map((pertemuan) => [pertemuan + 2, { cellWidth: 8.65 }])),
         },
         didParseCell: (hookData) => {
           if (hookData.section === "body" && hookData.column.index === 1) hookData.cell.styles.halign = "left";

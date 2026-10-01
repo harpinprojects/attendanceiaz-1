@@ -201,19 +201,25 @@ function KartuKuliahPage() {
         doc.text("INSTITUT AZ ZUHRA", pageWidth / 2, 10, { align: "center" });
         doc.setFontSize(12);
         doc.text("KARTU KULIAH MAHASISWA", pageWidth / 2, 16, { align: "center" });
-        doc.setFontSize(8.5);
-        info.forEach(([key, value], index) => {
-          const column = index % 3;
-          const row = Math.floor(index / 3);
-          const x = 10 + column * 90;
-          const y = 25 + row * 7;
-          const labelWidth = column === 2 ? 39 : 23;
-          doc.setFont("helvetica", "bold");
-          doc.text(key, x, y);
-          doc.setFont("helvetica", "normal");
-          doc.text(`: ${value.toLocaleUpperCase("id-ID")}`, x + labelWidth, y, { maxWidth: column === 2 ? 53 : 62 });
-        });
-        startY = 42;
+        doc.setFontSize(8);
+        const lineH = 3.6;
+        let rowY = 25;
+        for (let row = 0; row < Math.ceil(info.length / 3); row++) {
+          let maxLines = 1;
+          info.slice(row * 3, row * 3 + 3).forEach(([key, value], column) => {
+            const x = 10 + column * 92;
+            const labelWidth = column === 2 ? 37 : 23;
+            const maxWidth = column === 2 ? 52 : 64;
+            doc.setFont("helvetica", "bold");
+            doc.text(key, x, rowY);
+            doc.setFont("helvetica", "normal");
+            const lines = doc.splitTextToSize(`: ${value.toLocaleUpperCase("id-ID")}`, maxWidth) as string[];
+            lines.forEach((line, i) => doc.text(line, x + labelWidth, rowY + i * lineH));
+            maxLines = Math.max(maxLines, lines.length);
+          });
+          rowY += maxLines * lineH + 2.5;
+        }
+        startY = Math.max(40, rowY + 2);
       }
 
       const body = chunk.map((row, index) => [
@@ -297,9 +303,11 @@ function KartuKuliahPage() {
       if (isLastPage) {
         const tableResult = doc as unknown as { lastAutoTable?: { finalY: number } };
         let detailY = (tableResult.lastAutoTable?.finalY ?? startY) + 5;
-        if (detailY > pageHeight - 50) {
+        // Blok Ket + Distribusi Nilai + tanda tangan butuh ~80mm; jangan dipotong antarhalaman.
+        const DETAIL_BLOCK_HEIGHT = 80;
+        if (detailY + DETAIL_BLOCK_HEIGHT > pageHeight - 6) {
           doc.addPage("a4", "landscape");
-          detailY = 10;
+          detailY = 12;
         }
 
         doc.setFont("helvetica", "bold");

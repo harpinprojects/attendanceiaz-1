@@ -58,8 +58,8 @@ function LoginPage() {
       {
         user_id: data.user.id,
         email: data.user.email ?? parsed.data.email,
-        nama_lengkap: typeof metadata.nama_lengkap === "string" ? metadata.nama_lengkap : "",
-        nuptk: typeof metadata.nuptk === "string" ? metadata.nuptk : "",
+        nama_lengkap: typeof metadata["nama_lengkap"] === "string" ? metadata["nama_lengkap"] : "",
+        nuptk: typeof metadata["nuptk"] === "string" ? metadata["nuptk"] : "",
       },
       { onConflict: "user_id", ignoreDuplicates: true },
     );

@@ -73,6 +73,7 @@ export type Database = {
         Row: {
           created_at: string
           dosen: string
+          dosen_user_id: string | null
           id: string
           mata_kuliah_id: string
           nama: string
@@ -82,6 +83,7 @@ export type Database = {
         Insert: {
           created_at?: string
           dosen: string
+          dosen_user_id?: string | null
           id?: string
           mata_kuliah_id: string
           nama: string
@@ -91,6 +93,7 @@ export type Database = {
         Update: {
           created_at?: string
           dosen?: string
+          dosen_user_id?: string | null
           id?: string
           mata_kuliah_id?: string
           nama?: string
@@ -158,6 +161,36 @@ export type Database = {
           nama?: string
           semester?: number
           sks?: number
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          nama_lengkap: string
+          nuptk: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string
+          id?: string
+          nama_lengkap?: string
+          nuptk?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          nama_lengkap?: string
+          nuptk?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }

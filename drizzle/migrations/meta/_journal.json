@@ -8,6 +8,13 @@
       "when": 1790669744163,
       "tag": "0000_create_absensi_schema",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790904364267,
+      "tag": "0001_add_dosen_profiles_and_class_link",
+      "breakpoints": true
     }
   ]
 }

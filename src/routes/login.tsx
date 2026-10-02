@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { GraduationCap, Loader2, LockKeyhole, Mail } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -53,14 +53,8 @@ function LoginPage() {
       toast.error("Email atau password tidak sesuai");
       return;
     }
-    const metadata = data.user.user_metadata;
     await supabase.from("profiles").upsert(
-      {
-        user_id: data.user.id,
-        email: data.user.email ?? parsed.data.email,
-        nama_lengkap: typeof metadata["nama_lengkap"] === "string" ? metadata["nama_lengkap"] : "",
-        nuptk: typeof metadata["nuptk"] === "string" ? metadata["nuptk"] : "",
-      },
+      { user_id: data.user.id, email: data.user.email ?? parsed.data.email },
       { onConflict: "user_id", ignoreDuplicates: true },
     );
     await navigate({ to: "/", replace: true });
@@ -97,9 +91,6 @@ function LoginPage() {
             <Button className="w-full" type="submit" disabled={loading}>
               {loading ? <Loader2 className="animate-spin" /> : null} Masuk
             </Button>
-            <p className="text-center text-sm text-muted-foreground">
-              Belum punya akun? <Link to="/register" className="font-semibold text-primary hover:underline">Daftar di sini</Link>
-            </p>
           </form>
         </CardContent>
       </Card>

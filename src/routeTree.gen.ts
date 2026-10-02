@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as RegisterRouteImport } from './routes/register'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedAbsensiRouteImport } from './routes/_authenticated/absensi'
 import { Route as AuthenticatedKartuKuliahRouteImport } from './routes/_authenticated/kartu-kuliah'
@@ -27,11 +26,6 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RegisterRoute = RegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
@@ -74,7 +68,6 @@ const AuthenticatedMataKuliahRoute = AuthenticatedMataKuliahRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
   '/absensi': typeof AuthenticatedAbsensiRoute
   '/kartu-kuliah': typeof AuthenticatedKartuKuliahRoute
   '/kelas': typeof AuthenticatedKelasRoute
@@ -84,7 +77,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
   '/absensi': typeof AuthenticatedAbsensiRoute
   '/kartu-kuliah': typeof AuthenticatedKartuKuliahRoute
   '/kelas': typeof AuthenticatedKelasRoute
@@ -97,7 +89,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
   '/_authenticated/absensi': typeof AuthenticatedAbsensiRoute
   '/_authenticated/kartu-kuliah': typeof AuthenticatedKartuKuliahRoute
   '/_authenticated/kelas': typeof AuthenticatedKelasRoute
@@ -111,7 +102,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/login'
-    | '/register'
     | '/absensi'
     | '/kartu-kuliah'
     | '/kelas'
@@ -121,7 +111,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
-    | '/register'
     | '/absensi'
     | '/kartu-kuliah'
     | '/kelas'
@@ -133,7 +122,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_authenticated'
     | '/login'
-    | '/register'
     | '/_authenticated/absensi'
     | '/_authenticated/kartu-kuliah'
     | '/_authenticated/kelas'
@@ -146,7 +134,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
-  RegisterRoute: typeof RegisterRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -163,13 +150,6 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/register': {
-      id: '/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/': {
@@ -250,7 +230,6 @@ const AuthenticatedRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   LoginRoute: LoginRoute,
-  RegisterRoute: RegisterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

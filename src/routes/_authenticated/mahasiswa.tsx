@@ -25,7 +25,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export const Route = createFileRoute("/mahasiswa")({
+export const Route = createFileRoute("/_authenticated/mahasiswa")({
   head: () => ({
     meta: [
       { title: "Data Mahasiswa | Sistem Absensi Institut Az Zuhra" },

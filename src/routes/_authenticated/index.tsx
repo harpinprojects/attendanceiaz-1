@@ -6,7 +6,7 @@ import { AppLayout } from "@/components/AppLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { statusClass, STATUS_LIST, type Status } from "@/lib/absensi";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_authenticated/")({
   head: () => ({
     meta: [
       { title: "Dashboard | Sistem Absensi Institut Az Zuhra" },

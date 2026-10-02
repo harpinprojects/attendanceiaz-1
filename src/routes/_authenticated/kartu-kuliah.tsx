@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { PERTEMUAN_LIST } from "@/lib/absensi";
 
-export const Route = createFileRoute("/kartu-kuliah")({
+export const Route = createFileRoute("/_authenticated/kartu-kuliah")({
   head: () => ({
     meta: [
       { title: "Kartu Kuliah Mahasiswa | Institut Az Zuhra" },

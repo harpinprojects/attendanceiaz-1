@@ -25,7 +25,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export const Route = createFileRoute("/mata-kuliah")({
+export const Route = createFileRoute("/_authenticated/mata-kuliah")({
   head: () => ({
     meta: [
       { title: "Data Mata Kuliah | Sistem Absensi Institut Az Zuhra" },

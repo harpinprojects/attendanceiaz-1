@@ -7,3 +7,4 @@
 - [x] Tambahkan login khusus Dosen dan profil dosen.
 - [x] Lindungi seluruh halaman aplikasi dan tambahkan indikator akun serta logout.
 - [ ] Verifikasi alur login, proteksi halaman, logout, dan regresi fitur yang ada — menunggu akun Dosen pertama dibuat.
+- [x] Tambahkan halaman pendaftaran sementara untuk akun Dosen pertama.

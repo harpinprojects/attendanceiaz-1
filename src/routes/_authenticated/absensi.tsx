@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/table";
 import { PERTEMUAN_LIST, STATUS_LIST, statusClass, type Status } from "@/lib/absensi";
 
-export const Route = createFileRoute("/absensi")({
+export const Route = createFileRoute("/_authenticated/absensi")({
   head: () => ({
     meta: [
       { title: "Absensi | Sistem Absensi Institut Az Zuhra" },

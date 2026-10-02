@@ -9,82 +9,99 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AbsensiRouteImport } from './routes/absensi'
-import { Route as KartuKuliahRouteImport } from './routes/kartu-kuliah'
-import { Route as KelasRouteImport } from './routes/kelas'
-import { Route as LaporanRouteImport } from './routes/laporan'
-import { Route as MahasiswaRouteImport } from './routes/mahasiswa'
-import { Route as MataKuliahRouteImport } from './routes/mata-kuliah'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedAbsensiRouteImport } from './routes/_authenticated/absensi'
+import { Route as AuthenticatedKartuKuliahRouteImport } from './routes/_authenticated/kartu-kuliah'
+import { Route as AuthenticatedKelasRouteImport } from './routes/_authenticated/kelas'
+import { Route as AuthenticatedLaporanRouteImport } from './routes/_authenticated/laporan'
+import { Route as AuthenticatedMahasiswaRouteImport } from './routes/_authenticated/mahasiswa'
+import { Route as AuthenticatedMataKuliahRouteImport } from './routes/_authenticated/mata-kuliah'
 
-const IndexRoute = IndexRouteImport.update({
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AbsensiRoute = AbsensiRouteImport.update({
+const AuthenticatedAbsensiRoute = AuthenticatedAbsensiRouteImport.update({
   id: '/absensi',
   path: '/absensi',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const KartuKuliahRoute = KartuKuliahRouteImport.update({
-  id: '/kartu-kuliah',
-  path: '/kartu-kuliah',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KelasRoute = KelasRouteImport.update({
+const AuthenticatedKartuKuliahRoute =
+  AuthenticatedKartuKuliahRouteImport.update({
+    id: '/kartu-kuliah',
+    path: '/kartu-kuliah',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedKelasRoute = AuthenticatedKelasRouteImport.update({
   id: '/kelas',
   path: '/kelas',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const LaporanRoute = LaporanRouteImport.update({
+const AuthenticatedLaporanRoute = AuthenticatedLaporanRouteImport.update({
   id: '/laporan',
   path: '/laporan',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const MahasiswaRoute = MahasiswaRouteImport.update({
+const AuthenticatedMahasiswaRoute = AuthenticatedMahasiswaRouteImport.update({
   id: '/mahasiswa',
   path: '/mahasiswa',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const MataKuliahRoute = MataKuliahRouteImport.update({
+const AuthenticatedMataKuliahRoute = AuthenticatedMataKuliahRouteImport.update({
   id: '/mata-kuliah',
   path: '/mata-kuliah',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/absensi': typeof AbsensiRoute
-  '/kartu-kuliah': typeof KartuKuliahRoute
-  '/kelas': typeof KelasRoute
-  '/laporan': typeof LaporanRoute
-  '/mahasiswa': typeof MahasiswaRoute
-  '/mata-kuliah': typeof MataKuliahRoute
+  '/': typeof AuthenticatedIndexRoute
+  '/login': typeof LoginRoute
+  '/absensi': typeof AuthenticatedAbsensiRoute
+  '/kartu-kuliah': typeof AuthenticatedKartuKuliahRoute
+  '/kelas': typeof AuthenticatedKelasRoute
+  '/laporan': typeof AuthenticatedLaporanRoute
+  '/mahasiswa': typeof AuthenticatedMahasiswaRoute
+  '/mata-kuliah': typeof AuthenticatedMataKuliahRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/absensi': typeof AbsensiRoute
-  '/kartu-kuliah': typeof KartuKuliahRoute
-  '/kelas': typeof KelasRoute
-  '/laporan': typeof LaporanRoute
-  '/mahasiswa': typeof MahasiswaRoute
-  '/mata-kuliah': typeof MataKuliahRoute
+  '/login': typeof LoginRoute
+  '/absensi': typeof AuthenticatedAbsensiRoute
+  '/kartu-kuliah': typeof AuthenticatedKartuKuliahRoute
+  '/kelas': typeof AuthenticatedKelasRoute
+  '/laporan': typeof AuthenticatedLaporanRoute
+  '/mahasiswa': typeof AuthenticatedMahasiswaRoute
+  '/mata-kuliah': typeof AuthenticatedMataKuliahRoute
+  '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/absensi': typeof AbsensiRoute
-  '/kartu-kuliah': typeof KartuKuliahRoute
-  '/kelas': typeof KelasRoute
-  '/laporan': typeof LaporanRoute
-  '/mahasiswa': typeof MahasiswaRoute
-  '/mata-kuliah': typeof MataKuliahRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/login': typeof LoginRoute
+  '/_authenticated/absensi': typeof AuthenticatedAbsensiRoute
+  '/_authenticated/kartu-kuliah': typeof AuthenticatedKartuKuliahRoute
+  '/_authenticated/kelas': typeof AuthenticatedKelasRoute
+  '/_authenticated/laporan': typeof AuthenticatedLaporanRoute
+  '/_authenticated/mahasiswa': typeof AuthenticatedMahasiswaRoute
+  '/_authenticated/mata-kuliah': typeof AuthenticatedMataKuliahRoute
+  '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/login'
     | '/absensi'
     | '/kartu-kuliah'
     | '/kelas'
@@ -93,96 +110,126 @@ export interface FileRouteTypes {
     | '/mata-kuliah'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
+    | '/login'
     | '/absensi'
     | '/kartu-kuliah'
     | '/kelas'
     | '/laporan'
     | '/mahasiswa'
     | '/mata-kuliah'
+    | '/'
   id:
     | '__root__'
-    | '/'
-    | '/absensi'
-    | '/kartu-kuliah'
-    | '/kelas'
-    | '/laporan'
-    | '/mahasiswa'
-    | '/mata-kuliah'
+    | '/_authenticated'
+    | '/login'
+    | '/_authenticated/absensi'
+    | '/_authenticated/kartu-kuliah'
+    | '/_authenticated/kelas'
+    | '/_authenticated/laporan'
+    | '/_authenticated/mahasiswa'
+    | '/_authenticated/mata-kuliah'
+    | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AbsensiRoute: typeof AbsensiRoute
-  KartuKuliahRoute: typeof KartuKuliahRoute
-  KelasRoute: typeof KelasRoute
-  LaporanRoute: typeof LaporanRoute
-  MahasiswaRoute: typeof MahasiswaRoute
-  MataKuliahRoute: typeof MataKuliahRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/': {
+      id: '/_authenticated/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/absensi': {
-      id: '/absensi'
+    '/_authenticated/absensi': {
+      id: '/_authenticated/absensi'
       path: '/absensi'
       fullPath: '/absensi'
-      preLoaderRoute: typeof AbsensiRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedAbsensiRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/kartu-kuliah': {
-      id: '/kartu-kuliah'
+    '/_authenticated/kartu-kuliah': {
+      id: '/_authenticated/kartu-kuliah'
       path: '/kartu-kuliah'
       fullPath: '/kartu-kuliah'
-      preLoaderRoute: typeof KartuKuliahRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedKartuKuliahRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/kelas': {
-      id: '/kelas'
+    '/_authenticated/kelas': {
+      id: '/_authenticated/kelas'
       path: '/kelas'
       fullPath: '/kelas'
-      preLoaderRoute: typeof KelasRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedKelasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/laporan': {
-      id: '/laporan'
+    '/_authenticated/laporan': {
+      id: '/_authenticated/laporan'
       path: '/laporan'
       fullPath: '/laporan'
-      preLoaderRoute: typeof LaporanRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedLaporanRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/mahasiswa': {
-      id: '/mahasiswa'
+    '/_authenticated/mahasiswa': {
+      id: '/_authenticated/mahasiswa'
       path: '/mahasiswa'
       fullPath: '/mahasiswa'
-      preLoaderRoute: typeof MahasiswaRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedMahasiswaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/mata-kuliah': {
-      id: '/mata-kuliah'
+    '/_authenticated/mata-kuliah': {
+      id: '/_authenticated/mata-kuliah'
       path: '/mata-kuliah'
       fullPath: '/mata-kuliah'
-      preLoaderRoute: typeof MataKuliahRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedMataKuliahRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAbsensiRoute: typeof AuthenticatedAbsensiRoute
+  AuthenticatedKartuKuliahRoute: typeof AuthenticatedKartuKuliahRoute
+  AuthenticatedKelasRoute: typeof AuthenticatedKelasRoute
+  AuthenticatedLaporanRoute: typeof AuthenticatedLaporanRoute
+  AuthenticatedMahasiswaRoute: typeof AuthenticatedMahasiswaRoute
+  AuthenticatedMataKuliahRoute: typeof AuthenticatedMataKuliahRoute
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAbsensiRoute: AuthenticatedAbsensiRoute,
+  AuthenticatedKartuKuliahRoute: AuthenticatedKartuKuliahRoute,
+  AuthenticatedKelasRoute: AuthenticatedKelasRoute,
+  AuthenticatedLaporanRoute: AuthenticatedLaporanRoute,
+  AuthenticatedMahasiswaRoute: AuthenticatedMahasiswaRoute,
+  AuthenticatedMataKuliahRoute: AuthenticatedMataKuliahRoute,
+  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AbsensiRoute: AbsensiRoute,
-  KartuKuliahRoute: KartuKuliahRoute,
-  KelasRoute: KelasRoute,
-  LaporanRoute: LaporanRoute,
-  MahasiswaRoute: MahasiswaRoute,
-  MataKuliahRoute: MataKuliahRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

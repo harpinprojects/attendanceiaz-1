@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/table";
 import { STATUS_LIST, type Status } from "@/lib/absensi";
 
-export const Route = createFileRoute("/laporan")({
+export const Route = createFileRoute("/_authenticated/laporan")({
   head: () => ({
     meta: [
       { title: "Laporan | Sistem Absensi Institut Az Zuhra" },

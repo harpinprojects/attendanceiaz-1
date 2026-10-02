@@ -1,4 +1,5 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import {
   LayoutDashboard,
@@ -9,7 +10,10 @@ import {
   BarChart3,
   GraduationCap,
   IdCard,
+  LogOut,
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
 
 const nav = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -30,6 +34,26 @@ export function AppLayout({
   description?: string;
   children: ReactNode;
 }) {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { data: activeDosen } = useQuery({
+    queryKey: ["active-dosen"],
+    queryFn: async () => {
+      const { data: userData } = await supabase.auth.getUser();
+      const user = userData.user;
+      if (!user) return null;
+      const { data: profile } = await supabase.from("profiles").select("nama_lengkap,email").eq("user_id", user.id).maybeSingle();
+      return profile?.nama_lengkap || profile?.email || user.email || "Dosen";
+    },
+  });
+
+  async function handleLogout() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    await navigate({ to: "/login", replace: true });
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <aside className="fixed inset-y-0 left-0 hidden w-72 flex-col border-r border-border bg-card lg:flex">
@@ -46,6 +70,10 @@ export function AppLayout({
             </p>
             <p className="text-sm font-bold text-foreground">Institut Az Zuhra</p>
           </div>
+        </div>
+        <div className="mx-4 mb-3 border-y border-border px-2 py-3">
+          <p className="text-xs text-muted-foreground">Masuk sebagai:</p>
+          <p className="mt-0.5 truncate text-sm font-semibold text-foreground">{activeDosen ?? "Dosen"}</p>
         </div>
         <nav className="flex flex-1 flex-col gap-1 px-4 py-2">
           {nav.map((item) => (
@@ -64,7 +92,12 @@ export function AppLayout({
             </Link>
           ))}
         </nav>
-        <p className="px-6 py-5 text-xs text-muted-foreground">Tahun Akademik 2025/2026</p>
+        <div className="border-t border-border px-4 py-4">
+          <Button variant="ghost" className="w-full justify-start text-muted-foreground" onClick={handleLogout}>
+            <LogOut /> Keluar
+          </Button>
+          <p className="mt-3 px-2 text-xs text-muted-foreground">Tahun Akademik 2025/2026</p>
+        </div>
       </aside>
 
       <div className="lg:pl-72">

@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router";
 import { GraduationCap, Loader2, LockKeyhole, Mail } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -91,6 +91,12 @@ function LoginPage() {
             <Button className="w-full" type="submit" disabled={loading}>
               {loading ? <Loader2 className="animate-spin" /> : null} Masuk
             </Button>
+            <p className="text-center text-sm text-muted-foreground">
+              Belum punya akun?{" "}
+              <Link to="/register" className="font-medium text-primary hover:underline">
+                Daftar di sini
+              </Link>
+            </p>
           </form>
         </CardContent>
       </Card>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import type { ReactNode } from "react";
@@ -11,6 +12,8 @@ import {
   GraduationCap,
   IdCard,
   LogOut,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -36,6 +39,7 @@ export function AppLayout({
 }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [collapsed, setCollapsed] = useState(false);
   const { data: activeDosen } = useQuery({
     queryKey: ["active-dosen"],
     queryFn: async () => {
@@ -56,57 +60,121 @@ export function AppLayout({
 
   return (
     <div className="min-h-screen bg-background">
-      <aside className="fixed inset-y-0 left-0 hidden w-72 flex-col border-r border-border bg-card lg:flex">
-        <div className="flex items-center gap-3 px-6 py-6">
+      <aside
+        className={`fixed inset-y-0 left-0 z-20 hidden flex-col border-r border-border bg-card transition-[width] duration-200 lg:flex ${
+          collapsed ? "w-20" : "w-72"
+        }`}
+      >
+        <div
+          className={`flex items-center gap-3 py-6 ${
+            collapsed ? "flex-col px-2" : "px-6"
+          }`}
+        >
           <div
-            className="flex size-11 items-center justify-center rounded-xl text-primary-foreground"
+            className="flex size-11 shrink-0 items-center justify-center rounded-xl text-primary-foreground"
             style={{ backgroundImage: "var(--gradient-primary)" }}
           >
             <GraduationCap className="size-6" />
           </div>
-          <div className="leading-tight">
-            <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-              Sistem Absensi
-            </p>
-            <p className="text-sm font-bold text-foreground">Institut Az Zuhra</p>
+          {collapsed ? (
+            <button
+              type="button"
+              onClick={() => setCollapsed(false)}
+              aria-label="Perbesar menu"
+              className="rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-primary-soft hover:text-primary"
+            >
+              <PanelLeftOpen className="size-5" />
+            </button>
+          ) : (
+            <>
+              <div className="min-w-0 flex-1 leading-tight">
+                <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                  Sistem Absensi
+                </p>
+                <p className="truncate text-sm font-bold text-foreground">Institut Az Zuhra</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setCollapsed(true)}
+                aria-label="Perkecil menu"
+                className="rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-primary-soft hover:text-primary"
+              >
+                <PanelLeftClose className="size-5" />
+              </button>
+            </>
+          )}
+        </div>
+        {!collapsed && (
+          <div className="mx-4 mb-3 border-y border-border px-2 py-3">
+            <p className="text-xs text-muted-foreground">Masuk sebagai:</p>
+            <p className="mt-0.5 truncate text-sm font-semibold text-foreground">{activeDosen ?? "Dosen"}</p>
           </div>
-        </div>
-        <div className="mx-4 mb-3 border-y border-border px-2 py-3">
-          <p className="text-xs text-muted-foreground">Masuk sebagai:</p>
-          <p className="mt-0.5 truncate text-sm font-semibold text-foreground">{activeDosen ?? "Dosen"}</p>
-        </div>
-        <nav className="flex flex-1 flex-col gap-1 px-4 py-2">
+        )}
+        {collapsed && activeDosen ? (
+          <div className="mx-auto mb-3 flex size-9 items-center justify-center rounded-full bg-primary-soft text-xs font-bold text-primary" title={activeDosen}>
+            {activeDosen.slice(0, 2).toUpperCase()}
+          </div>
+        ) : null}
+        <nav className={`flex flex-1 flex-col gap-1 py-2 ${collapsed ? "px-3" : "px-4"}`}>
           {nav.map((item) => (
             <Link
               key={item.to}
               to={item.to}
               activeOptions={{ exact: item.to === "/" }}
-              className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-primary-soft hover:text-primary"
+              title={item.label}
+              className={`flex items-center rounded-lg text-sm font-medium text-muted-foreground transition-colors hover:bg-primary-soft hover:text-primary ${
+                collapsed ? "justify-center px-0 py-2.5" : "gap-3 px-3 py-2.5"
+              }`}
               activeProps={{
-                className:
-                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold bg-primary-soft text-primary",
+                className: `flex items-center rounded-lg text-sm font-semibold bg-primary-soft text-primary ${
+                  collapsed ? "justify-center px-0 py-2.5" : "gap-3 px-3 py-2.5"
+                }`,
               }}
             >
-              <item.icon className="size-4.5" />
-              {item.label}
+              <item.icon className="size-4.5 shrink-0" />
+              {!collapsed && <span className="truncate">{item.label}</span>}
             </Link>
           ))}
         </nav>
-        <div className="border-t border-border px-4 py-4">
-          <Button variant="ghost" className="w-full justify-start text-muted-foreground" onClick={handleLogout}>
-            <LogOut /> Keluar
-          </Button>
-          <p className="mt-3 px-2 text-xs text-muted-foreground">Tahun Akademik 2025/2026</p>
+        <div className="border-t border-border px-3 py-4">
+          {collapsed ? (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="mx-auto flex text-muted-foreground"
+              onClick={handleLogout}
+              title="Keluar"
+            >
+              <LogOut />
+            </Button>
+          ) : (
+            <>
+              <Button variant="ghost" className="w-full justify-start text-muted-foreground" onClick={handleLogout}>
+                <LogOut /> Keluar
+              </Button>
+              <p className="mt-3 px-2 text-xs text-muted-foreground">Tahun Akademik 2025/2026</p>
+            </>
+          )}
         </div>
       </aside>
 
-      <div className="lg:pl-72">
+      <div className={`transition-[padding] duration-200 ${collapsed ? "lg:pl-20" : "lg:pl-72"}`}>
         <header className="border-b border-border bg-card/70 backdrop-blur">
-          <div className="px-6 py-6">
-            <h1 className="text-2xl font-bold tracking-tight text-foreground">{title}</h1>
-            {description ? (
-              <p className="mt-1 text-sm text-muted-foreground">{description}</p>
-            ) : null}
+          <div className="flex items-center gap-3 px-6 py-6">
+            <button
+              type="button"
+              onClick={() => setCollapsed((c) => !c)}
+              aria-label={collapsed ? "Perbesar menu" : "Perkecil menu"}
+              className="hidden rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-primary-soft hover:text-primary lg:inline-flex"
+            >
+              {collapsed ? <PanelLeftOpen className="size-5" /> : <PanelLeftClose className="size-5" />}
+            </button>
+            <div>
+              <h1 className="text-2xl font-bold tracking-tight text-foreground">{title}</h1>
+              {description ? (
+                <p className="mt-1 text-sm text-muted-foreground">{description}</p>
+              ) : null}
+            </div>
           </div>
           <nav className="flex gap-1 overflow-x-auto px-4 pb-3 lg:hidden">
             {nav.map((item) => (

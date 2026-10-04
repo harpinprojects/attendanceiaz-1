@@ -14,6 +14,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedAbsensiRouteImport } from './routes/_authenticated/absensi'
+import { Route as AuthenticatedBeritaAcaraRouteImport } from './routes/_authenticated/berita-acara'
 import { Route as AuthenticatedKartuKuliahRouteImport } from './routes/_authenticated/kartu-kuliah'
 import { Route as AuthenticatedKelasRouteImport } from './routes/_authenticated/kelas'
 import { Route as AuthenticatedLaporanRouteImport } from './routes/_authenticated/laporan'
@@ -44,6 +45,12 @@ const AuthenticatedAbsensiRoute = AuthenticatedAbsensiRouteImport.update({
   path: '/absensi',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedBeritaAcaraRoute =
+  AuthenticatedBeritaAcaraRouteImport.update({
+    id: '/berita-acara',
+    path: '/berita-acara',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedKartuKuliahRoute =
   AuthenticatedKartuKuliahRouteImport.update({
     id: '/kartu-kuliah',
@@ -76,6 +83,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/absensi': typeof AuthenticatedAbsensiRoute
+  '/berita-acara': typeof AuthenticatedBeritaAcaraRoute
   '/kartu-kuliah': typeof AuthenticatedKartuKuliahRoute
   '/kelas': typeof AuthenticatedKelasRoute
   '/laporan': typeof AuthenticatedLaporanRoute
@@ -86,6 +94,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/absensi': typeof AuthenticatedAbsensiRoute
+  '/berita-acara': typeof AuthenticatedBeritaAcaraRoute
   '/kartu-kuliah': typeof AuthenticatedKartuKuliahRoute
   '/kelas': typeof AuthenticatedKelasRoute
   '/laporan': typeof AuthenticatedLaporanRoute
@@ -99,6 +108,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/_authenticated/absensi': typeof AuthenticatedAbsensiRoute
+  '/_authenticated/berita-acara': typeof AuthenticatedBeritaAcaraRoute
   '/_authenticated/kartu-kuliah': typeof AuthenticatedKartuKuliahRoute
   '/_authenticated/kelas': typeof AuthenticatedKelasRoute
   '/_authenticated/laporan': typeof AuthenticatedLaporanRoute
@@ -113,6 +123,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/absensi'
+    | '/berita-acara'
     | '/kartu-kuliah'
     | '/kelas'
     | '/laporan'
@@ -123,6 +134,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/absensi'
+    | '/berita-acara'
     | '/kartu-kuliah'
     | '/kelas'
     | '/laporan'
@@ -135,6 +147,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/_authenticated/absensi'
+    | '/_authenticated/berita-acara'
     | '/_authenticated/kartu-kuliah'
     | '/_authenticated/kelas'
     | '/_authenticated/laporan'
@@ -186,6 +199,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAbsensiRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/berita-acara': {
+      id: '/_authenticated/berita-acara'
+      path: '/berita-acara'
+      fullPath: '/berita-acara'
+      preLoaderRoute: typeof AuthenticatedBeritaAcaraRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/kartu-kuliah': {
       id: '/_authenticated/kartu-kuliah'
       path: '/kartu-kuliah'
@@ -226,6 +246,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAbsensiRoute: typeof AuthenticatedAbsensiRoute
+  AuthenticatedBeritaAcaraRoute: typeof AuthenticatedBeritaAcaraRoute
   AuthenticatedKartuKuliahRoute: typeof AuthenticatedKartuKuliahRoute
   AuthenticatedKelasRoute: typeof AuthenticatedKelasRoute
   AuthenticatedLaporanRoute: typeof AuthenticatedLaporanRoute
@@ -236,6 +257,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAbsensiRoute: AuthenticatedAbsensiRoute,
+  AuthenticatedBeritaAcaraRoute: AuthenticatedBeritaAcaraRoute,
   AuthenticatedKartuKuliahRoute: AuthenticatedKartuKuliahRoute,
   AuthenticatedKelasRoute: AuthenticatedKelasRoute,
   AuthenticatedLaporanRoute: AuthenticatedLaporanRoute,

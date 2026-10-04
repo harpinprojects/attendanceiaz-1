@@ -69,6 +69,50 @@ export type Database = {
           },
         ]
       }
+      berita_acara: {
+        Row: {
+          created_at: string
+          id: string
+          kelas_id: string
+          keterangan: string
+          metode: string
+          pertemuan: number
+          pokok_bahasan: string
+          tanggal: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kelas_id: string
+          keterangan?: string
+          metode?: string
+          pertemuan: number
+          pokok_bahasan?: string
+          tanggal?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kelas_id?: string
+          keterangan?: string
+          metode?: string
+          pertemuan?: number
+          pokok_bahasan?: string
+          tanggal?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "berita_acara_kelas_id_fkey"
+            columns: ["kelas_id"]
+            isOneToOne: false
+            referencedRelation: "kelas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       kelas: {
         Row: {
           created_at: string

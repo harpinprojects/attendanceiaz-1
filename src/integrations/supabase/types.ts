@@ -74,9 +74,13 @@ export type Database = {
           created_at: string
           dosen: string
           dosen_user_id: string | null
+          hari: string | null
           id: string
+          jam_mulai: string | null
+          jam_selesai: string | null
           mata_kuliah_id: string
           nama: string
+          ruangan: string | null
           semester: number
           tahun_akademik: string
         }
@@ -84,9 +88,13 @@ export type Database = {
           created_at?: string
           dosen: string
           dosen_user_id?: string | null
+          hari?: string | null
           id?: string
+          jam_mulai?: string | null
+          jam_selesai?: string | null
           mata_kuliah_id: string
           nama: string
+          ruangan?: string | null
           semester?: number
           tahun_akademik: string
         }
@@ -94,9 +102,13 @@ export type Database = {
           created_at?: string
           dosen?: string
           dosen_user_id?: string | null
+          hari?: string | null
           id?: string
+          jam_mulai?: string | null
+          jam_selesai?: string | null
           mata_kuliah_id?: string
           nama?: string
+          ruangan?: string | null
           semester?: number
           tahun_akademik?: string
         }

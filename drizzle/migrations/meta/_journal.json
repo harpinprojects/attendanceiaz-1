@@ -22,6 +22,13 @@
       "when": 1790904492212,
       "tag": "0002_restrict_attendance_data_to_authenticated_dosen",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791099705558,
+      "tag": "0003_add_kelas_jadwal",
+      "breakpoints": true
     }
   ]
 }

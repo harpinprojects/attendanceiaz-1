@@ -62,7 +62,7 @@ function Dashboard() {
       const toMin = (t: string | null) => {
         if (!t) return 0;
         const [h, m] = t.split(":").map(Number);
-        return h * 60 + m;
+        return (h ?? 0) * 60 + (m ?? 0);
       };
       return (data ?? [])
         .map((k) => {

@@ -54,13 +54,22 @@ type Form = {
   dosen: string;
   tahun_akademik: string;
   semester: string;
+  hari: string;
+  jam_mulai: string;
+  jam_selesai: string;
+  ruangan: string;
 };
+const HARI = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
 const empty: Form = {
   nama: "",
   mata_kuliah_id: "",
   dosen: "",
   tahun_akademik: "2025/2026",
   semester: "1",
+  hari: "",
+  jam_mulai: "",
+  jam_selesai: "",
+  ruangan: "",
 };
 
 function KelasPage() {
@@ -97,6 +106,10 @@ function KelasPage() {
         dosen: v.dosen.trim(),
         tahun_akademik: v.tahun_akademik.trim(),
         semester: Number(v.semester),
+        hari: v.hari || null,
+        jam_mulai: v.jam_mulai || null,
+        jam_selesai: v.jam_selesai || null,
+        ruangan: v.ruangan.trim() || null,
       };
       const { error } = v.id
         ? await supabase.from("kelas").update(payload).eq("id", v.id)
@@ -154,19 +167,20 @@ function KelasPage() {
                 <TableHead>Dosen</TableHead>
                 <TableHead>Tahun Akademik</TableHead>
                 <TableHead>Semester</TableHead>
+                <TableHead>Jadwal</TableHead>
                 <TableHead className="text-right">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-muted-foreground">
+                  <TableCell colSpan={7} className="text-muted-foreground">
                     Memuat data...
                   </TableCell>
                 </TableRow>
               ) : data.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-muted-foreground">
+                  <TableCell colSpan={7} className="text-muted-foreground">
                     Belum ada kelas.
                   </TableCell>
                 </TableRow>
@@ -180,6 +194,19 @@ function KelasPage() {
                     <TableCell>{k.dosen}</TableCell>
                     <TableCell>{k.tahun_akademik}</TableCell>
                     <TableCell>{k.semester}</TableCell>
+                    <TableCell>
+                      {k.hari ? (
+                        <div className="text-sm">
+                          <div className="font-medium">{k.hari}</div>
+                          <div className="text-muted-foreground">
+                            {k.jam_mulai?.slice(0, 5) ?? "-"}–{k.jam_selesai?.slice(0, 5) ?? "-"}
+                            {k.ruangan ? ` · ${k.ruangan}` : ""}
+                          </div>
+                        </div>
+                      ) : (
+                        <span className="text-muted-foreground">-</span>
+                      )}
+                    </TableCell>
                     <TableCell className="text-right">
                       <Button
                         variant="ghost"
@@ -192,6 +219,10 @@ function KelasPage() {
                             dosen: k.dosen,
                             tahun_akademik: k.tahun_akademik,
                             semester: String(k.semester),
+                            hari: k.hari ?? "",
+                            jam_mulai: k.jam_mulai?.slice(0, 5) ?? "",
+                            jam_selesai: k.jam_selesai?.slice(0, 5) ?? "",
+                            ruangan: k.ruangan ?? "",
                           });
                           setOpen(true);
                         }}
@@ -273,6 +304,47 @@ function KelasPage() {
                   max={14}
                   value={form.semester}
                   onChange={(e) => setForm({ ...form, semester: e.target.value })}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Hari</Label>
+                <Select value={form.hari} onValueChange={(v) => setForm({ ...form, hari: v })}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih hari" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {HARI.map((h) => (
+                      <SelectItem key={h} value={h}>
+                        {h}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>Ruangan</Label>
+                <Input
+                  maxLength={50}
+                  value={form.ruangan}
+                  onChange={(e) => setForm({ ...form, ruangan: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Jam Mulai</Label>
+                <Input
+                  type="time"
+                  value={form.jam_mulai}
+                  onChange={(e) => setForm({ ...form, jam_mulai: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Jam Selesai</Label>
+                <Input
+                  type="time"
+                  value={form.jam_selesai}
+                  onChange={(e) => setForm({ ...form, jam_selesai: e.target.value })}
                 />
               </div>
             </div>

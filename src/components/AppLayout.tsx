@@ -11,6 +11,7 @@ import {
   BarChart3,
   GraduationCap,
   IdCard,
+  FileText,
   LogOut,
   PanelLeftClose,
   PanelLeftOpen,
@@ -26,6 +27,7 @@ const nav = [
   { to: "/absensi", label: "Absensi", icon: ClipboardCheck },
   { to: "/laporan", label: "Laporan", icon: BarChart3 },
   { to: "/kartu-kuliah", label: "Kartu Kuliah", icon: IdCard },
+  { to: "/berita-acara", label: "Berita Acara", icon: FileText },
 ] as const;
 
 export function AppLayout({

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Users, BookOpen, School, ClipboardCheck } from "lucide-react";
+import { Users, BookOpen, School, ClipboardCheck, CalendarClock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { AppLayout } from "@/components/AppLayout";
 import { Card, CardContent } from "@/components/ui/card";
@@ -45,6 +45,39 @@ function Dashboard() {
         total: abs.data?.length ?? 0,
         counts,
       };
+    },
+  });
+
+  const { data: jadwal = [] } = useQuery({
+    queryKey: ["jadwal-mendatang"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("kelas")
+        .select("id, nama, dosen, hari, jam_mulai, jam_selesai, ruangan, mata_kuliah(kode, nama)")
+        .not("hari", "is", null);
+      if (error) throw error;
+      const HARI = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+      const now = new Date();
+      const nowMin = now.getHours() * 60 + now.getMinutes();
+      const toMin = (t: string | null) => {
+        if (!t) return 0;
+        const [h, m] = t.split(":").map(Number);
+        return (h ?? 0) * 60 + (m ?? 0);
+      };
+      return (data ?? [])
+        .map((k) => {
+          const d = HARI.indexOf(k.hari ?? "");
+          if (d < 0) return null;
+          let diff = (d - now.getDay() + 7) % 7;
+          const end = toMin(k.jam_selesai ?? k.jam_mulai);
+          if (diff === 0 && end && end < nowMin) diff = 7;
+          const date = new Date(now);
+          date.setDate(now.getDate() + diff);
+          return { ...k, diff, date, sort: diff * 1440 + toMin(k.jam_mulai) };
+        })
+        .filter((k): k is NonNullable<typeof k> => k !== null)
+        .sort((a, b) => a.sort - b.sort)
+        .slice(0, 6);
     },
   });
 
@@ -113,6 +146,44 @@ function Dashboard() {
               </CardContent>
             </Card>
           </div>
+
+          <Card className="border-border" style={{ boxShadow: "var(--shadow-soft)" }}>
+            <CardContent className="p-6">
+              <h2 className="flex items-center gap-2 text-base font-semibold text-foreground">
+                <CalendarClock className="size-5 text-primary" /> Jadwal Kelas Mendatang
+              </h2>
+              {jadwal.length === 0 ? (
+                <p className="mt-4 text-sm text-muted-foreground">
+                  Belum ada jadwal. Atur jadwal di menu Data Kelas.
+                </p>
+              ) : (
+                <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                  {jadwal.map((k) => (
+                    <div key={k.id} className="rounded-xl border border-border p-4">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="rounded-md bg-primary-soft px-2 py-0.5 text-xs font-semibold text-primary">
+                          {k.diff === 0 ? "Hari ini" : k.diff === 1 ? "Besok" : k.hari}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          {k.date.toLocaleDateString("id-ID", { day: "numeric", month: "short" })}
+                        </span>
+                      </div>
+                      <p className="mt-2 font-semibold text-foreground">
+                        {k.mata_kuliah?.nama ?? "-"}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Kelas {k.nama} · {k.dosen}
+                      </p>
+                      <p className="mt-1 text-sm text-foreground">
+                        {k.jam_mulai?.slice(0, 5) ?? "-"}–{k.jam_selesai?.slice(0, 5) ?? "-"}
+                        {k.ruangan ? ` · ${k.ruangan}` : ""}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </div>
       )}
     </AppLayout>

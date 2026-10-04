@@ -1,0 +1,1 @@
+ALTER TABLE public.kelas ADD COLUMN hari text, ADD COLUMN jam_mulai time, ADD COLUMN jam_selesai time, ADD COLUMN ruangan text;

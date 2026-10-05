@@ -20,6 +20,7 @@ import { Route as AuthenticatedKelasRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedLaporanRouteImport } from './routes/_authenticated/laporan'
 import { Route as AuthenticatedMahasiswaRouteImport } from './routes/_authenticated/mahasiswa'
 import { Route as AuthenticatedMataKuliahRouteImport } from './routes/_authenticated/mata-kuliah'
+import { Route as AuthenticatedProfilRouteImport } from './routes/_authenticated/profil'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
@@ -77,6 +78,11 @@ const AuthenticatedMataKuliahRoute = AuthenticatedMataKuliahRouteImport.update({
   path: '/mata-kuliah',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedProfilRoute = AuthenticatedProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/laporan': typeof AuthenticatedLaporanRoute
   '/mahasiswa': typeof AuthenticatedMahasiswaRoute
   '/mata-kuliah': typeof AuthenticatedMataKuliahRoute
+  '/profil': typeof AuthenticatedProfilRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
@@ -100,6 +107,7 @@ export interface FileRoutesByTo {
   '/laporan': typeof AuthenticatedLaporanRoute
   '/mahasiswa': typeof AuthenticatedMahasiswaRoute
   '/mata-kuliah': typeof AuthenticatedMataKuliahRoute
+  '/profil': typeof AuthenticatedProfilRoute
   '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
@@ -114,6 +122,7 @@ export interface FileRoutesById {
   '/_authenticated/laporan': typeof AuthenticatedLaporanRoute
   '/_authenticated/mahasiswa': typeof AuthenticatedMahasiswaRoute
   '/_authenticated/mata-kuliah': typeof AuthenticatedMataKuliahRoute
+  '/_authenticated/profil': typeof AuthenticatedProfilRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
@@ -129,6 +138,7 @@ export interface FileRouteTypes {
     | '/laporan'
     | '/mahasiswa'
     | '/mata-kuliah'
+    | '/profil'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -140,6 +150,7 @@ export interface FileRouteTypes {
     | '/laporan'
     | '/mahasiswa'
     | '/mata-kuliah'
+    | '/profil'
     | '/'
   id:
     | '__root__'
@@ -153,6 +164,7 @@ export interface FileRouteTypes {
     | '/_authenticated/laporan'
     | '/_authenticated/mahasiswa'
     | '/_authenticated/mata-kuliah'
+    | '/_authenticated/profil'
     | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
@@ -241,6 +253,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMataKuliahRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/profil': {
+      id: '/_authenticated/profil'
+      path: '/profil'
+      fullPath: '/profil'
+      preLoaderRoute: typeof AuthenticatedProfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -252,6 +271,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedLaporanRoute: typeof AuthenticatedLaporanRoute
   AuthenticatedMahasiswaRoute: typeof AuthenticatedMahasiswaRoute
   AuthenticatedMataKuliahRoute: typeof AuthenticatedMataKuliahRoute
+  AuthenticatedProfilRoute: typeof AuthenticatedProfilRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
@@ -263,6 +283,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedLaporanRoute: AuthenticatedLaporanRoute,
   AuthenticatedMahasiswaRoute: AuthenticatedMahasiswaRoute,
   AuthenticatedMataKuliahRoute: AuthenticatedMataKuliahRoute,
+  AuthenticatedProfilRoute: AuthenticatedProfilRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 

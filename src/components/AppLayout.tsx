@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const nav = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -50,8 +51,20 @@ export function AppLayout({
       const { data: userData } = await supabase.auth.getUser();
       const user = userData.user;
       if (!user) return null;
-      const { data: profile } = await supabase.from("profiles").select("nama_lengkap,email").eq("user_id", user.id).maybeSingle();
-      return profile?.nama_lengkap || profile?.email || user.email || "Dosen";
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("nama_lengkap,email,avatar_path")
+        .eq("user_id", user.id)
+        .maybeSingle();
+      const name = profile?.nama_lengkap || profile?.email || user.email || "Dosen";
+      let avatarUrl: string | null = null;
+      if (profile?.avatar_path) {
+        const { data: signed } = await supabase.storage
+          .from("profile-photos")
+          .createSignedUrl(profile.avatar_path, 3600);
+        avatarUrl = signed?.signedUrl ?? null;
+      }
+      return { name, avatarUrl };
     },
   });
 
@@ -109,15 +122,26 @@ export function AppLayout({
           )}
         </div>
         {!collapsed && (
-          <div className="mx-4 mb-3 border-y border-border px-2 py-3">
-            <p className="text-xs text-muted-foreground">Masuk sebagai:</p>
-            <p className="mt-0.5 truncate text-sm font-semibold text-foreground">{activeDosen ?? "Dosen"}</p>
+          <div className="mx-4 mb-3 flex items-center gap-3 border-y border-border px-2 py-3">
+            <Avatar className="size-9 border border-border">
+              <AvatarImage src={activeDosen?.avatarUrl ?? undefined} alt="Foto profil Dosen" className="object-cover" />
+              <AvatarFallback className="bg-primary-soft text-xs font-bold text-primary">
+                {(activeDosen?.name ?? "Dosen").slice(0, 2).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+            <div className="min-w-0">
+              <p className="text-xs text-muted-foreground">Masuk sebagai:</p>
+              <p className="mt-0.5 truncate text-sm font-semibold text-foreground">{activeDosen?.name ?? "Dosen"}</p>
+            </div>
           </div>
         )}
         {collapsed && activeDosen ? (
-          <div className="mx-auto mb-3 flex size-9 items-center justify-center rounded-full bg-primary-soft text-xs font-bold text-primary" title={activeDosen}>
-            {activeDosen.slice(0, 2).toUpperCase()}
-          </div>
+          <Avatar className="mx-auto mb-3 size-9 border border-border" title={activeDosen.name}>
+            <AvatarImage src={activeDosen.avatarUrl ?? undefined} alt="Foto profil Dosen" className="object-cover" />
+            <AvatarFallback className="bg-primary-soft text-xs font-bold text-primary">
+              {activeDosen.name.slice(0, 2).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
         ) : null}
         <nav className={`flex flex-1 flex-col gap-1 py-2 ${collapsed ? "px-3" : "px-4"}`}>
           {nav.map((item) => (

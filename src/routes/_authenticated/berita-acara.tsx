@@ -133,16 +133,16 @@ function BeritaAcaraPage() {
 
   const info = data && kelas
     ? {
-        left: <[string, string][]>[
+        left: [
           ["TAHUN AKADEMIK", kelas.tahun_akademik],
           ["KODE MATAKULIAH", data.mk.kode],
           ["NAMA MATAKULIAH", data.mk.nama],
-        ],
-        right: <[string, string][]>[
+        ] as [string, string][],
+        right: [
           ["KELAS", kelas.nama],
           ["PROGRAM STUDI", data.prodi],
           ["NAMA DOSEN", kelas.dosen],
-        ],
+        ] as [string, string][],
       }
     : null;
 

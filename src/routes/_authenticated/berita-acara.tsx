@@ -133,12 +133,12 @@ function BeritaAcaraPage() {
 
   const info = data && kelas
     ? {
-        left: [
+        left: <[string, string][]>[
           ["TAHUN AKADEMIK", kelas.tahun_akademik],
           ["KODE MATAKULIAH", data.mk.kode],
           ["NAMA MATAKULIAH", data.mk.nama],
         ],
-        right: [
+        right: <[string, string][]>[
           ["KELAS", kelas.nama],
           ["PROGRAM STUDI", data.prodi],
           ["NAMA DOSEN", kelas.dosen],
@@ -163,7 +163,7 @@ function BeritaAcaraPage() {
     doc.text("FAKULTAS VOKASI", W / 2, 25, { align: "center" });
 
     doc.setFontSize(9);
-    const drawInfo = (items: string[][], x: number, labelW: number, valueW: number) => {
+    const drawInfo = (items: [string, string][], x: number, labelW: number, valueW: number) => {
       items.forEach(([k, v], i) => {
         const y = 33 + i * 5;
         doc.setFont("times", "bold");

@@ -21,6 +21,7 @@ export type Database = {
           kelas_id: string
           mahasiswa_id: string
           mata_kuliah_id: string
+          owner_id: string | null
           pertemuan: number
           status: string
           tanggal: string
@@ -31,6 +32,7 @@ export type Database = {
           kelas_id: string
           mahasiswa_id: string
           mata_kuliah_id: string
+          owner_id?: string | null
           pertemuan: number
           status: string
           tanggal: string
@@ -41,6 +43,7 @@ export type Database = {
           kelas_id?: string
           mahasiswa_id?: string
           mata_kuliah_id?: string
+          owner_id?: string | null
           pertemuan?: number
           status?: string
           tanggal?: string
@@ -76,6 +79,7 @@ export type Database = {
           kelas_id: string
           keterangan: string
           metode: string
+          owner_id: string | null
           pertemuan: number
           pokok_bahasan: string
           tanggal: string | null
@@ -87,6 +91,7 @@ export type Database = {
           kelas_id: string
           keterangan?: string
           metode?: string
+          owner_id?: string | null
           pertemuan: number
           pokok_bahasan?: string
           tanggal?: string | null
@@ -98,6 +103,7 @@ export type Database = {
           kelas_id?: string
           keterangan?: string
           metode?: string
+          owner_id?: string | null
           pertemuan?: number
           pokok_bahasan?: string
           tanggal?: string | null
@@ -124,6 +130,7 @@ export type Database = {
           jam_selesai: string | null
           mata_kuliah_id: string
           nama: string
+          owner_id: string | null
           ruangan: string | null
           semester: number
           tahun_akademik: string
@@ -138,6 +145,7 @@ export type Database = {
           jam_selesai?: string | null
           mata_kuliah_id: string
           nama: string
+          owner_id?: string | null
           ruangan?: string | null
           semester?: number
           tahun_akademik: string
@@ -152,6 +160,7 @@ export type Database = {
           jam_selesai?: string | null
           mata_kuliah_id?: string
           nama?: string
+          owner_id?: string | null
           ruangan?: string | null
           semester?: number
           tahun_akademik?: string
@@ -173,6 +182,7 @@ export type Database = {
           kelas: string
           nama: string
           npm: string
+          owner_id: string | null
           program_studi: string
         }
         Insert: {
@@ -181,6 +191,7 @@ export type Database = {
           kelas: string
           nama: string
           npm: string
+          owner_id?: string | null
           program_studi: string
         }
         Update: {
@@ -189,6 +200,7 @@ export type Database = {
           kelas?: string
           nama?: string
           npm?: string
+          owner_id?: string | null
           program_studi?: string
         }
         Relationships: []
@@ -199,6 +211,7 @@ export type Database = {
           id: string
           kode: string
           nama: string
+          owner_id: string | null
           semester: number
           sks: number
         }
@@ -207,6 +220,7 @@ export type Database = {
           id?: string
           kode: string
           nama: string
+          owner_id?: string | null
           semester?: number
           sks?: number
         }
@@ -215,6 +229,7 @@ export type Database = {
           id?: string
           kode?: string
           nama?: string
+          owner_id?: string | null
           semester?: number
           sks?: number
         }

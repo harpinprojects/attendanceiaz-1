@@ -43,6 +43,13 @@
       "when": 1791174844784,
       "tag": "0005_add_profile_photo",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1791252560984,
+      "tag": "0006_per_dosen_data_ownership",
+      "breakpoints": true
     }
   ]
 }

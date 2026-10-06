@@ -8,4 +8,4 @@
 - [x] Lindungi seluruh halaman aplikasi dan tambahkan indikator akun serta logout.
 - [ ] Verifikasi alur login, proteksi halaman, logout, dan regresi fitur yang ada — menunggu akun Dosen pertama dibuat.
 - [x] Tambahkan unggah/ganti foto profil dan tampilkan avatar di sidebar.
-- [ ] Cek daftar akun baru dan verifikasi pendaftaran akun Dosen lain tetap terbuka.
+- [x] Cek daftar akun baru dan verifikasi pendaftaran akun Dosen lain tetap terbuka.

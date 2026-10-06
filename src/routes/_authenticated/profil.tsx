@@ -102,12 +102,12 @@ function ProfilPage() {
 
     setUploadingPhoto(true);
     const extension = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
-    const avatarPath = `${profil.userId}/avatar.${extension}`;
+    const avatarPath = `${profil.userId}/avatar-${Date.now()}.${extension}`;
     const previousPath = profil.profil?.avatar_path;
 
     const { error: uploadError } = await supabase.storage
       .from("profile-photos")
-      .upload(avatarPath, file, { cacheControl: "3600", upsert: true, contentType: file.type });
+      .upload(avatarPath, file, { cacheControl: "3600", upsert: false, contentType: file.type });
 
     if (uploadError) {
       setUploadingPhoto(false);

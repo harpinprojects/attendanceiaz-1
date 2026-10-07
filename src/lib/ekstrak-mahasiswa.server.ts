@@ -23,7 +23,7 @@ Jangan mengarang data. Lewati baris kosong, judul, tanda tangan, atau baris yang
 type Input = { fileName: string; mimeType: string; text: string | null; dataBase64: string | null };
 
 export async function runExtraction(input: Input) {
-  const apiKey = process.env.LOVABLE_API_KEY;
+  const apiKey = process.env["LOVABLE_API_KEY"];
   if (!apiKey) throw new Error("Layanan AI belum dikonfigurasi.");
 
   const content: Exclude<ModelMessage["content"], string> = [

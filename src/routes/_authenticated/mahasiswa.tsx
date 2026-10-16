@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Pencil, Plus, Trash2 } from "lucide-react";
+import { Pencil, Plus, Trash2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { AppLayout } from "@/components/AppLayout";
+import { EkstrakMahasiswaDialog } from "@/components/EkstrakMahasiswaDialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -43,6 +44,7 @@ const empty: Form = { npm: "", nama: "", program_studi: "", kelas: "" };
 function MahasiswaPage() {
   const qc = useQueryClient();
   const [open, setOpen] = useState(false);
+  const [aiDialogOpen, setAiDialogOpen] = useState(false);
   const [form, setForm] = useState<Form>(empty);
 
   const { data = [], isLoading } = useQuery({
@@ -97,15 +99,28 @@ function MahasiswaPage() {
 
   return (
     <AppLayout title="Data Mahasiswa" description="Tambah, ubah, dan hapus data mahasiswa.">
-      <div className="mb-4 flex justify-end">
-        <Button
-          onClick={() => {
-            setForm(empty);
-            setOpen(true);
-          }}
-        >
-          <Plus className="size-4" /> Tambah Mahasiswa
-        </Button>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="text-sm text-muted-foreground">
+          Total: <span className="font-semibold text-foreground">{data.length}</span> mahasiswa terdaftar
+        </div>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            className="gap-2 border-primary/30 text-primary hover:bg-primary/5 shadow-xs"
+            onClick={() => setAiDialogOpen(true)}
+          >
+            <Sparkles className="size-4 text-primary" /> Unggah & Ekstrak (AI)
+          </Button>
+          <Button
+            onClick={() => {
+              setForm(empty);
+              setOpen(true);
+            }}
+            className="gap-2"
+          >
+            <Plus className="size-4" /> Tambah Manual
+          </Button>
+        </div>
       </div>
 
       <Card className="border-border" style={{ boxShadow: "var(--shadow-soft)" }}>
@@ -224,6 +239,8 @@ function MahasiswaPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <EkstrakMahasiswaDialog open={aiDialogOpen} onOpenChange={setAiDialogOpen} />
     </AppLayout>
   );
 }

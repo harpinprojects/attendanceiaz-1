@@ -23,8 +23,23 @@ Jangan mengarang data. Lewati baris kosong, judul, tanda tangan, atau baris yang
 type Input = { fileName: string; mimeType: string; text: string | null; dataBase64: string | null };
 
 export async function runExtraction(input: Input) {
-  const apiKey = process.env["LOVABLE_API_KEY"];
-  if (!apiKey) throw new Error("Layanan AI belum dikonfigurasi.");
+  const isLovable = Boolean(process.env["LOVABLE_API_KEY"]);
+  const apiKey =
+    process.env["LOVABLE_API_KEY"] ||
+    process.env["AI_GATEWAY_API_KEY"] ||
+    process.env["OPENAI_API_KEY"];
+
+  if (!apiKey) {
+    throw new Error(
+      "Layanan AI belum dikonfigurasi. Pastikan LOVABLE_API_KEY atau OPENAI_API_KEY telah diatur pada environment.",
+    );
+  }
+
+  const BASE_URL =
+    process.env["AI_GATEWAY_BASE_URL"] ||
+    (isLovable ? "https://ai.gateway.lovable.dev/v1" : undefined);
+  const MODEL =
+    process.env["AI_MODEL"] || (isLovable ? "openai/gpt-6-astra" : "gpt-4o-mini");
 
   const content: Exclude<ModelMessage["content"], string> = [
     { type: "text", text: `Nama file: ${input.fileName}` },
@@ -32,20 +47,26 @@ export async function runExtraction(input: Input) {
   if (input.text) {
     (content as unknown[]).push({ type: "text", text: input.text });
   } else if (input.dataBase64) {
+    const rawBase64 = input.dataBase64.replace(/^data:[^;]+;base64,/, "");
     (content as unknown[]).push(
       input.mimeType.startsWith("image/")
-        ? { type: "image", image: input.dataBase64, mediaType: input.mimeType }
-        : { type: "file", data: input.dataBase64, mediaType: input.mimeType, filename: input.fileName },
+        ? { type: "image", image: rawBase64, mediaType: input.mimeType }
+        : { type: "file", data: rawBase64, mediaType: input.mimeType, filename: input.fileName },
     );
   } else {
     throw new Error("File kosong.");
   }
 
   let runId: string | undefined;
+  const defaultHeaders: Record<string, string> = { "X-Lovable-AIG-SDK": "vercel-ai-sdk" };
+  if (isLovable) {
+    defaultHeaders["Lovable-API-Key"] = apiKey;
+  }
+
   const provider = createOpenAI({
-    baseURL: BASE_URL,
+    ...(BASE_URL ? { baseURL: BASE_URL } : {}),
     apiKey,
-    headers: { "Lovable-API-Key": apiKey, "X-Lovable-AIG-SDK": "vercel-ai-sdk" },
+    headers: defaultHeaders,
     fetch: async (url, init) => {
       const headers = new Headers(init?.headers);
       if (runId) headers.set("X-Lovable-AIG-Run-ID", runId);

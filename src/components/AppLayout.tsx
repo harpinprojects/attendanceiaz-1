@@ -16,6 +16,7 @@ import {
   UserRound,
   PanelLeftClose,
   PanelLeftOpen,
+  Banknote,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,7 @@ const nav = [
   { to: "/laporan", label: "Laporan", icon: BarChart3 },
   { to: "/kartu-kuliah", label: "Kartu Kuliah", icon: IdCard },
   { to: "/berita-acara", label: "Berita Acara", icon: FileText },
+  { to: "/honor-dosen", label: "Honor & Kehadiran Dosen", icon: Banknote },
   { to: "/profil", label: "Profil Akun", icon: UserRound },
 ] as const;
 

@@ -9,3 +9,5 @@
 - [ ] Verifikasi alur login, proteksi halaman, logout, dan regresi fitur yang ada — menunggu akun Dosen pertama dibuat.
 - [x] Tambahkan unggah/ganti foto profil dan tampilkan avatar di sidebar.
 - [x] Cek daftar akun baru dan verifikasi pendaftaran akun Dosen lain tetap terbuka.
+- [x] Tambahkan fitur unggah dan ekstraksi daftar mahasiswa (teks, CSV, foto/gambar, PDF) terstruktur menggunakan AI Gateway.
+- [x] Tambahkan halaman tersendiri untuk Rekap Kehadiran Dosen & Pencairan Honor SK Mengajar Fakultas Vokasi (1 SKS Praktik = Rp.30.000, 1 SKS Teori = Rp.28.000).
